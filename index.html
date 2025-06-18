@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt"> <!-- Default language set to PT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armando Alves – Curriculum Vitae</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2pdf.js for PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* --- Base and Light Theme Styles --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            box-sizing: border-box;
+            transition: background-color 0.4s ease;
+        }
+
+        .controls-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* --- Theme & Language Switches --- */
+        .switch-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .switch-wrapper span {
+            color: #4a5568;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #6b7280; /* Grey for toggles */
+        }
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+        .slider.round {
+            border-radius: 28px;
+        }
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        /* PDF Download Button */
+        #download-pdf-btn {
+            padding: 0.8rem 1.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+            background-color: #4b5563; /* Grey button */
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        #download-pdf-btn:hover {
+            background-color: #374151; /* Darker grey on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* CV Container - Light Mode */
+        .cv-container {
+            background-color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            transition: background-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        /* Language content control */
+        [lang="pt"] .lang-en, [lang="en"] .lang-pt {
+            display: none;
+        }
+        
+        /* Light Theme Typography and Elements */
+        .name { color: #1a202c; }
+        .role { color: #4b5563; } /* Grey role */
+        .contact-info, .contact-item a, .company, .dates, .edu-dates, .desc, .edu-school { color: #4a5568; }
+        .contact-item i { color: #6b7280; } /* Grey icons */
+        .contact-item a:hover { color: #1f2937; }
+        .section-title { color: #2d3748; border-bottom-color: #9ca3af; } /* Grey border */
+        .section-title i { color: #6b7280; } /* Grey icons */
+        .job-title, .edu-title { color: #2d3748; }
+        .skill-tag { background-color: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; }
+        .skill-tag:hover { background-color: #e5e7eb; color: #1f2937; border-color: #9ca3af; } /* Grey hover */
+        .lang-tag { background: #f3f4f6; color: #374151; border: 1px solid transparent; }
+        
+        /* --- Dark Mode Overrides --- */
+        body.dark .switch-wrapper span { color: #9ca3af; }
+        body.dark .cv-container { background-color: #1f2937; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+        body.dark .name, body.dark .section-title, body.dark .job-title, body.dark .edu-title { color: #f9fafb; }
+        body.dark .role { color: #9ca3af; } /* Light grey role */
+        body.dark .contact-info, body.dark .contact-item a, body.dark .company, body.dark .dates, body.dark .edu-dates, body.dark .desc, body.dark .edu-school { color: #d1d5db; }
+        body.dark .contact-item i { color: #9ca3af; } /* Light grey icons */
+        body.dark .contact-item a:hover { color: #f9fafb; }
+        body.dark .section-title { border-bottom-color: #4b5563; } /* Darker grey border */
+        body.dark .section-title i { color: #9ca3af; } /* Light grey icons */
+        body.dark .skill-tag, body.dark .lang-tag { background-color: #374151; color: #d1d5db; border: 1px solid #4b5563; }
+        body.dark .skill-tag:hover { background-color: #4b5563; color: #ffffff; border-color: #6b7280; } /* Grey hover dark */
+
+        /* General Unchanging Styles */
+        .header-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.5rem; }
+        .profile-picture {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #9ca3af;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0; /* Prevents the flex container from squashing the image */
+        }
+        .header-text { width: 100%; }
+        .name { font-size: 2.8rem; font-weight: 800; line-height: 1.2; }
+        .role { font-size: 1.4rem; font-weight: 700; margin-top: -0.5rem; }
+        .contact-info { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 1.8rem; font-size: 1.05rem; margin-top: 1rem; }
+        .contact-item { display: flex; align-items: center; gap: 0.6rem; }
+        .contact-item a { text-decoration: none; transition: color 0.3s ease; }
+        .section-title { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 3px solid; display: flex; align-items: center; gap: 0.8rem; }
+        .item { margin-bottom: 1.5rem; } .item:last-child { margin-bottom: 0; }
+        .item-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; margin-bottom: 0.5rem; }
+        .job-title, .edu-title { font-weight: 700; font-size: 1.25rem; }
+        .company, .edu-school { font-size: 1.05rem; margin-left: 0.5rem; font-style: italic; }
+        .dates, .edu-dates { font-size: 1rem; white-space: nowrap; margin-top: 0.2rem; }
+        .desc { font-size: 1.05rem; line-height: 1.6; margin-top: 0.8rem; }
+        .desc ul { list-style-position: inside; padding-left: 0.5rem; }
+        .desc li { margin-bottom: 0.5rem; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.8rem; margin-top: 0.5rem; padding-top: 0.5rem; }
+        .skill-tag { padding: 0.75em 1.2em; border-radius: 10px; font-size: 0.98em; font-weight: 500; text-align: center; transition: all 0.3s ease-in-out; }
+        .lang-list { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.5rem; }
+        .lang-tag { padding: 0.6em 1.2em; border-radius: 1.5em; font-size: 1em; font-weight: 500; }
+        .edu-item { margin-bottom: 1.25rem; }
+
+        /* --- Page Break Control for PDF --- */
+        .avoid-break { page-break-inside: avoid !important; }
+
+        /* --- Responsive Adjustments --- */
+        @media (min-width: 768px) {
+            .header-content { flex-direction: row; text-align: left; align-items: center; gap: 2.5rem; }
+            .header-text { flex-grow: 1; }
+            .contact-info { justify-content: flex-start; }
+            .name { font-size: 3rem; }
+        }
+        @media (max-width: 767px) {
+            body { padding: 1rem 0.5rem; } .cv-container { padding: 2rem 1.5rem; gap: 2rem; }
+            .name { font-size: 2.2rem; } .role { font-size: 1.2rem; }
+            .contact-info { flex-direction: column; align-items: center; gap: 0.8rem; font-size: 0.95rem; }
+            .section-title { font-size: 1.3rem; margin-bottom: 1rem; }
+            .item-header { flex-direction: column; align-items: flex-start; }
+            .job-title { font-size: 1.15rem; } .company { margin-left: 0; margin-top: 0.2rem; }
+            .dates { margin-top: 0.2rem; } .desc { font-size: 0.95rem; }
+            .skills-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+            .skill-tag, .lang-tag { font-size: 0.9em; padding: 0.5em 1em; }
+            .edu-title { font-size: 1.05rem; } .edu-school, .edu-dates { font-size: 0.95rem; }
+        }
+    </style>
+    
+    <!-- Aggressive print styles to force 2-page PDF -->
+    <style id="print-styles">
+        .pdf-view {
+            font-size: 9.5pt !important;
+        }
+        .pdf-view .cv-container {
+            gap: 0.8rem !important;
+            padding: 1.2rem 1.5rem !important;
+        }
+        .pdf-view .profile-picture {
+            width: 110px !important;
+            height: 110px !important;
+        }
+        .pdf-view .name { font-size: 2.2rem !important; }
+        .pdf-view .role { font-size: 1.1rem !important; }
+        .pdf-view .contact-info { font-size: 0.85rem !important; gap: 0.4rem 0.8rem !important; }
+        .pdf-view .section-title { font-size: 1rem !important; margin-bottom: 0.4rem !important; padding-bottom: 0.2rem !important; }
+        .pdf-view .item { margin-bottom: 0.6rem !important; }
+        .pdf-view .job-title, .pdf-view .edu-title { font-size: 0.95rem !important; }
+        .pdf-view .dates, .pdf-view .edu-dates { font-size: 0.9rem !important; }
+        .pdf-view .desc { font-size: 0.85rem !important; line-height: 1.3 !important; margin-top: 0.3rem !important;}
+        .pdf-view .desc li { margin-bottom: 0.15rem !important; }
+        .pdf-view .skills-grid { gap: 0.4rem !important; }
+        .pdf-view .skill-tag, .pdf-view .lang-tag { font-size: 0.8em !important; padding: 0.3em 0.6em !important; }
+        .pdf-view .edu-item { margin-bottom: 0.5rem !important; }
+    </style>
+</head>
+<body> <!-- No .dark class by default -->
+    <div class="controls-container">
+        <!-- Theme Toggle -->
+        <div class="switch-wrapper">
+            <span>Light</span>
+            <label class="switch" for="theme-toggle">
+                <input type="checkbox" id="theme-toggle" />
+                <div class="slider round"></div>
+            </label>
+            <span>Dark</span>
+        </div>
+        <!-- Language Toggle -->
+        <div class="switch-wrapper">
+            <span>PT</span>
+            <label class="switch" for="lang-toggle">
+                <input type="checkbox" id="lang-toggle" />
+                <div class="slider round"></div>
+            </label>
+            <span>ENG</span>
+        </div>
+        <!-- PDF Download Button -->
+        <button id="download-pdf-btn">
+            <span class="lang-pt"><i class="fas fa-file-pdf"></i> Descarregar PDF</span>
+            <span class="lang-en"><i class="fas fa-file-pdf"></i> Download PDF</span>
+        </button>
+    </div>
+
+    <div class="cv-container" id="cv-to-print">
+        <!-- Header Section -->
+        <header class="header-content avoid-break">
+            <img src="img/profile-pic.png" alt="Foto de Perfil de Armando Alves" class="profile-picture" onerror="this.onerror=null;this.src='https://placehold.co/140x140/e0e0e0/a0a0a0?text=Image+Not+Found';">
+            <div class="header-text">
+                <h1 class="name">Armando Alves</h1>
+                <div class="role">
+                    <span class="lang-pt">Developer de Sistemas Internos / Criador de Soluções Digitais</span>
+                    <span class="lang-en">Internal Systems Developer / Digital Solutions Builder</span>
+                </div>
+                <div class="contact-info">
+                    <span class="contact-item"><i class="fas fa-map-marker-alt"></i> Portimão, Portugal</span>
+                    <span class="contact-item"><i class="fas fa-envelope"></i> <a href="mailto:tea4wolf@gmail.com">tea4wolf@gmail.com</a></span>
+                    <span class="contact-item"><i class="fas fa-phone"></i> <a href="tel:+351913313174">+351 913 313 174</a></span>
+                    <span class="contact-item"><i class="fab fa-linkedin"></i> <a href="https://linkedin.com/in/armando-alves-a07840a7" target="_blank" rel="noopener noreferrer">linkedin.com/in/armando-alves-a07840a7</a></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Summary Section -->
+        <section class="avoid-break">
+            <h2 class="section-title">
+                <i class="fas fa-user-tie"></i> 
+                <span class="lang-pt">Resumo</span>
+                <span class="lang-en">Summary</span>
+            </h2>
+            <div class="desc">
+                <span class="lang-pt">Developer versátil com mais de 5 anos de experiência em automação de operações, criação de ferramentas digitais e desenho de processos de negócio. Experiência prática em web design, automação e sistemas internos—poupando centenas de horas, reduzindo erros e capacitando equipas numa empresa de eventos e logística em rápido crescimento. Atualmente à procura de novas oportunidades para construir, otimizar e automatizar—sempre com curiosidade, resiliência e um apurado sentido de humor.</span>
+                <span class="lang-en">Versatile solutions developer with 5+ years automating operations, building digital tools, and designing business processes. Hands-on experience in web design, automation, and internal systems—saving hundreds of hours, reducing errors, and empowering teams at a rapidly growing event & logistics company. Currently seeking new opportunities to build, optimise, and automate—always with curiosity, resilience, and a dry sense of humour.</span>
+            </div>
+        </section>
+
+        <!-- Professional Experience Section -->
+        <section>
+            <h2 class="section-title">
+                <i class="fas fa-briefcase"></i> 
+                <span class="lang-pt">Experiência Profissional</span>
+                <span class="lang-en">Professional Experience</span>
+            </h2>
+
+            <div class="item avoid-break">
+                <div class="item-header">
+                    <div>
+                        <div class="job-title"><span class="lang-pt">Developer de Sistemas Internos</span><span class="lang-en">Internal Systems Developer</span></div>
+                        <span class="company">@ My Dynamic</span>
+                    </div>
+                    <span class="dates"><span class="lang-pt">Jan 2020 - Jun 2025</span><span class="lang-en">Jan 2020 - Jun 2025</span></span>
+                </div>
+                <div class="desc">
+                    <ul class="lang-pt">
+                        <li>Criei ferramentas web internas que pouparam >400 horas de trabalho mensais – Sistema de orçamentação rápida “Orca” (5 min vs 1 h por utilizador, por orçamento) – “Dynamic Wallet”, uma aplicação móvel para controlo de despesas para mais de 10 colaboradores.</li>
+                        <li>Automatizei logística, processamento de salários e inventário via Google Apps Script.</li>
+                        <li>Implementei sites de clientes (deixaki.pt, dynamickids.pt) com WordPress.</li>
+                        <li>Stack: HTML/CSS, JavaScript (com assistência de IA), Apps Script.</li>
+                    </ul>
+                    <ul class="lang-en">
+                        <li>Built internal web tools saving >400 staff-hours per month – “Orca” rapid-quote system (5 min vs 1 h per user, per quote) – “Dynamic Wallet” mobile expense tracker for 10+ staff members.</li>
+                        <li>Automated logistics, payroll & inventory via Google Apps Script.</li>
+                        <li>Deployed customer sites (deixaki.pt, dynamickids.pt) with WordPress.</li>
+                        <li>Stack: HTML/CSS, JavaScript (AI-assisted), Apps Script.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="item avoid-break">
+                <div class="item-header">
+                    <div>
+                        <div class="job-title"><span class="lang-pt">Web Designer & Criador de Soluções Digitais</span><span class="lang-en">Web Designer & Digital Solutions Builder</span></div>
+                        <span class="company">@ My Dynamic</span>
+                    </div>
+                    <span class="dates"><span class="lang-pt">Jan 2016 - Dez 2019</span><span class="lang-en">Jan 2016 - Dec 2019</span></span>
+                </div>
+                <div class="desc">
+                    <ul class="lang-pt">
+                        <li>Desenhei, criei e mantive três sites WordPress (deixaki.pt, dynamickids.pt, lojadeixaki.pt) – crescimento de 50% de tráfego orgânico YoY.</li>
+                        <li>Criei um sistema de design reutilizável, padrões de UI e diretrizes de SEO on-page.</li>
+                        <li>Desenvolvi a primeira ferramenta de CRM/orçamentação em Google Sheets; automatizei e-mails de seguimento com Apps Script (tempo de resposta 2h → <10 min).</li>
+                        <li>Criei o protótipo da v1 da “Dynamic Wallet” em Sheets + script; mais tarde evoluiu para uma aplicação móvel.</li>
+                        <li>Trabalhei de forma transversal com marketing, RH e operações para converter fluxos de trabalho manuais em soluções digitais.</li>
+                    </ul>
+                    <ul class="lang-en">
+                        <li>Designed, built and maintained three WordPress sites (deixaki.pt, dynamickids.pt, lojadeixaki.pt) – 50% organic-traffic growth YoY.</li>
+                        <li>Created reusable design system, UI patterns and on-page SEO guidelines.</li>
+                        <li>Developed the first Google-Sheets CRM/quote tool; automated follow-up e-mails with Apps Script (turn-around 2 h → <10 min).</li>
+                        <li>Prototyped “Dynamic Wallet” v1 in Sheets + script; later evolved into mobile app.</li>
+                        <li>Worked cross-functionally with marketing, HR and ops to translate manual workflows into digital solutions.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="item avoid-break">
+                <div class="item-header">
+                    <div>
+                        <div class="job-title"><span class="lang-pt">Coordenador de Marketing & Design</span><span class="lang-en">Marketing & Design Lead</span></div>
+                        <span class="company">@ My Dynamic</span>
+                    </div>
+                    <span class="dates"><span class="lang-pt">Jan 2013 - Dez 2015</span><span class="lang-en">Jan 2013 - Dec 2015</span></span>
+                </div>
+                <div class="desc">
+                    <ul class="lang-pt">
+                        <li>Dirigi a estratégia de marca e identidade visual para uma empresa de eventos e logística em rápido crescimento.</li>
+                        <li>Produzi todos os recursos gráficos—impressão, redes sociais, feiras—usando Adobe Photoshop, Illustrator e InDesign.</li>
+                        <li>Planeei campanhas multicanal que aumentaram as reservas anuais de eventos em ~35%.</li>
+                        <li>Comecei a experimentar com WordPress e HTML/CSS básico para preparar a futura presença web da empresa.</li>
+                    </ul>
+                    <ul class="lang-en">
+                        <li>Directed brand strategy and visual identity for a rapidly-growing events & logistics company.</li>
+                        <li>Produced every graphic asset—print, social, trade-show—using Adobe Photoshop, Illustrator and InDesign.</li>
+                        <li>Planned multi-channel campaigns that boosted annual event bookings by ~35%.</li>
+                        <li>Began experimenting with WordPress and basic HTML/CSS to prep the company’s future web presence.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="item avoid-break">
+                <div class="item-header">
+                    <div>
+                        <div class="job-title"><span class="lang-pt">Estagiário Editorial</span><span class="lang-en">Editorial Assistant Intern</span></div>
+                        <span class="company">@ Leya</span>
+                    </div>
+                    <span class="dates"><span class="lang-pt">Set 2012 - Dez 2012</span><span class="lang-en">Sep 2012 - Dec 2012</span></span>
+                </div>
+                <div class="desc">
+                    <ul class="lang-pt">
+                        <li>Auxiliei editores seniores com revisão de texto, provas e paginação para dois títulos de não-ficção.</li>
+                        <li>Trabalhei em Adobe InDesign e Word, garantindo a consistência do guia de estilo em mais de 300 páginas.</li>
+                    </ul>
+                    <ul class="lang-en">
+                        <li>Assisted senior editors with copy-editing, proof stages and page layout for two non-fiction titles.</li>
+                        <li>Worked in Adobe InDesign and Word, ensuring style-guide consistency across 300+ pages.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="item avoid-break">
+                <div class="item-header">
+                    <div>
+                        <div class="job-title"><span class="lang-pt">Assistente de Arquivo</span><span class="lang-en">Archive Assistant</span></div>
+                        <span class="company">@ Banco de Portugal</span>
+                    </div>
+                    <span class="dates"><span class="lang-pt">Jan 2012 - Mar 2012</span><span class="lang-en">Jan 2012 - Mar 2012</span></span>
+                </div>
+                <div class="desc">
+                    <ul class="lang-pt">
+                        <li>Avaliei processos administrativos e apliquei tabelas de seleção; identifiquei registos obsoletos para destruição segura.</li>
+                    </ul>
+                    <ul class="lang-en">
+                        <li>Assessed administrative files and applied retention schedules; tagged obsolete records for secure destruction.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section>
+            <h2 class="section-title">
+                <i class="fas fa-graduation-cap"></i> 
+                <span class="lang-pt">Educação</span>
+                <span class="lang-en">Education</span>
+            </h2>
+             <div class="edu-item avoid-break">
+                <div class="item-header">
+                    <div class="edu-title"><span class="lang-pt">Licenciatura em Engenharia de Software</span><span class="lang-en">BSc in Software Engineering</span></div>
+                    <span class="dates"><span class="lang-pt">Presente</span><span class="lang-en">Present</span></span>
+                </div>
+                <div class="edu-school"><span class="lang-pt">Online / Autodidata</span><span class="lang-en">Online / Self-study</span></div>
+            </div>
+            <div class="edu-item avoid-break">
+                <div class="item-header">
+                    <div class="edu-title"><span class="lang-pt">Mestrado em Edição de Texto</span><span class="lang-en">MA in Text Editing</span></div>
+                    <span class="dates">2013 – 2015</span>
+                </div>
+                <div class="edu-school">Universidade Nova de Lisboa</div>
+            </div>
+            <div class="edu-item avoid-break">
+                <div class="item-header">
+                    <div class="edu-title"><span class="lang-pt">Licenciatura em Ciências Documentais e Editoriais</span><span class="lang-en">BA in Documentary & Editorial Sciences</span></div>
+                    <span class="dates">2010 – 2013</span>
+                </div>
+                <div class="edu-school">Universidade de Lisboa</div>
+            </div>
+        </section>
+
+        <!-- Key Skills Section -->
+        <section>
+             <h2 class="section-title">
+                <i class="fas fa-cogs"></i> 
+                <span class="lang-pt">Competências Chave</span>
+                <span class="lang-en">Key Skills</span>
+            </h2>
+            <div class="skills-grid">
+                <span class="skill-tag lang-pt">Automação de Processos</span><span class="skill-tag lang-en">Process Automation</span>
+                <span class="skill-tag lang-pt">Desenvolvimento Web</span><span class="skill-tag lang-en">Web Development</span>
+                <span class="skill-tag">Google Apps Script</span>
+                <span class="skill-tag lang-pt">Ferramentas de Programação com IA</span><span class="skill-tag lang-en">AI Coding Tools</span>
+                <span class="skill-tag">WordPress</span>
+                <span class="skill-tag">UI/UX Design</span>
+                <span class="skill-tag">Adobe Creative Suite</span>
+                <span class="skill-tag lang-pt">Branding & Design</span><span class="skill-tag lang-en">Branding & Design</span>
+                <span class="skill-tag lang-pt">Gestão de Projetos Digitais</span><span class="skill-tag lang-en">Digital Project Management</span>
+                <span class="skill-tag lang-pt">Sistemas de Comunicação Interna</span><span class="skill-tag lang-en">Internal Comms Systems</span>
+                <span class="skill-tag lang-pt">Análise de Negócio</span><span class="skill-tag lang-en">Business Analysis</span>
+                <span class="skill-tag">Copywriting</span>
+            </div>
+        </section>
+        
+        <!-- Languages Section -->
+        <section>
+            <h2 class="section-title">
+                <i class="fas fa-language"></i> 
+                <span class="lang-pt">Línguas</span>
+                <span class="lang-en">Languages</span>
+            </h2>
+            <div class="lang-list">
+                <span class="lang-tag lang-pt">Português (Nativo)</span><span class="lang-tag lang-en">Portuguese (Native)</span>
+                <span class="lang-tag lang-pt">Inglês (Fluente)</span><span class="lang-tag lang-en">English (Fluent)</span>
+                <span class="lang-tag lang-pt">Espanhol (Básico)</span><span class="lang-tag lang-en">Spanish (Basic)</span>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const langToggle = document.getElementById('lang-toggle');
+        const body = document.body;
+        const docHtml = document.documentElement;
+        const cvContainer = document.getElementById('cv-to-print');
+
+        // --- Theme Functionality ---
+        const setTheme = (isDark) => {
+            if (isDark) {
+                body.classList.add('dark');
+                themeToggle.checked = true;
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark');
+                themeToggle.checked = false;
+                localStorage.setItem('theme', 'light');
+            }
+        };
+
+        // --- Language Functionality ---
+        const setLanguage = (isEnglish) => {
+            if (isEnglish) {
+                docHtml.lang = 'en';
+                langToggle.checked = true;
+                localStorage.setItem('language', 'en');
+            } else {
+                docHtml.lang = 'pt';
+                langToggle.checked = false;
+                localStorage.setItem('language', 'pt');
+            }
+        };
+
+        // --- Event Listeners ---
+        themeToggle.addEventListener('change', () => setTheme(themeToggle.checked));
+        langToggle.addEventListener('change', () => setLanguage(langToggle.checked));
+
+        // --- PDF Download Functionality ---
+        document.getElementById('download-pdf-btn').addEventListener('click', function () {
+            const lang = docHtml.lang.toUpperCase();
+            
+            // Force light theme and add print-specific class for PDF generation
+            const wasDark = body.classList.contains('dark');
+            if (wasDark) {
+                body.classList.remove('dark');
+            }
+            cvContainer.classList.add('pdf-view'); // Add class for print styles
+
+            const opt = {
+                margin: [0.35, 0.25, 0.35, 0.25], // Tighter margins
+                filename: `Armando_Alves_CV_${lang}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Generate PDF and then restore original state
+            html2pdf().from(cvContainer).set(opt).save().then(() => {
+                cvContainer.classList.remove('pdf-view'); // Remove class after generation
+                if (wasDark) {
+                    body.classList.add('dark'); // Restore dark theme if it was active
+                }
+            });
+        });
+
+        // --- Set Initial State on Load ---
+        // Set Theme (Default to Light)
+        const savedTheme = localStorage.getItem('theme');
+        setTheme(savedTheme === 'dark');
+
+        // Set Language (Default to Portuguese)
+        const savedLang = localStorage.getItem('language');
+        setLanguage(savedLang === 'en');
+
+    </script>
+
+</body>
+</html>
