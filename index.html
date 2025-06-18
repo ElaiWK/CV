@@ -12,7 +12,243 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* --- Base and Light Theme Styles --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            box-sizing: border-box;
+            transition: background-color 0.4s ease;
+        }
+
+        .controls-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* --- Theme & Language Switches --- */
+        .switch-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .switch-wrapper span {
+            color: #4a5568;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #6b7280; /* Grey for toggles */
+        }
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+        .slider.round {
+            border-radius: 28px;
+        }
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        /* PDF Download Button */
+        #download-pdf-btn {
+            padding: 0.8rem 1.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+            background-color: #4b5563; /* Grey button */
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        #download-pdf-btn:hover {
+            background-color: #374151; /* Darker grey on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* CV Container - Light Mode */
+        .cv-container {
+            background-color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            transition: background-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        /* Language content control */
+        [lang="pt"] .lang-en, [lang="en"] .lang-pt {
+            display: none;
+        }
+        
+        /* Light Theme Typography and Elements */
+        .name { color: #1a202c; }
+        .role { color: #4b5563; } /* Grey role */
+        .contact-info, .contact-item a, .company, .dates, .edu-dates, .desc, .edu-school { color: #4a5568; }
+        .contact-item i { color: #6b7280; } /* Grey icons */
+        .contact-item a:hover { color: #1f2937; }
+        .section-title { color: #2d3748; border-bottom-color: #9ca3af; } /* Grey border */
+        .section-title i { color: #6b7280; } /* Grey icons */
+        .job-title, .edu-title { color: #2d3748; }
+        .skill-tag { background-color: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; }
+        .skill-tag:hover { background-color: #e5e7eb; color: #1f2937; border-color: #9ca3af; } /* Grey hover */
+        .lang-tag { background: #f3f4f6; color: #374151; border: 1px solid transparent; }
+        
+        /* --- Dark Mode Overrides --- */
+        body.dark { background-color: #111827; }
+        body.dark .switch-wrapper span { color: #9ca3af; }
+        body.dark .cv-container { background-color: #1f2937; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+        body.dark .name, body.dark .section-title, body.dark .job-title, body.dark .edu-title { color: #f9fafb; }
+        body.dark .role { color: #9ca3af; } /* Light grey role */
+        body.dark .contact-info, body.dark .contact-item a, body.dark .company, body.dark .dates, body.dark .edu-dates, body.dark .desc, body.dark .edu-school { color: #d1d5db; }
+        body.dark .contact-item i { color: #9ca3af; } /* Light grey icons */
+        body.dark .contact-item a:hover { color: #f9fafb; }
+        body.dark .section-title { border-bottom-color: #4b5563; } /* Darker grey border */
+        body.dark .section-title i { color: #9ca3af; } /* Light grey icons */
+        body.dark .skill-tag, body.dark .lang-tag { background-color: #374151; color: #d1d5db; border: 1px solid #4b5563; }
+        body.dark .skill-tag:hover { background-color: #4b5563; color: #ffffff; border-color: #6b7280; } /* Grey hover dark */
+
+        /* General Unchanging Styles */
+        .header-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.5rem; }
+        .profile-picture {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #9ca3af;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0; /* Prevents the flex container from squashing the image */
+        }
+        .header-text { width: 100%; }
+        .name { font-size: 2.8rem; font-weight: 800; line-height: 1.2; }
+        .role { font-size: 1.4rem; font-weight: 700; margin-top: -0.5rem; }
+        .contact-info { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 1.8rem; font-size: 1.05rem; margin-top: 1rem; }
+        .contact-item { display: flex; align-items: center; gap: 0.6rem; }
+        .contact-item a { text-decoration: none; transition: color 0.3s ease; }
+        .section-title { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 3px solid; display: flex; align-items: center; gap: 0.8rem; }
+        .item { margin-bottom: 1.5rem; } .item:last-child { margin-bottom: 0; }
+        .item-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; margin-bottom: 0.5rem; }
+        .job-title, .edu-title { font-weight: 700; font-size: 1.25rem; }
+        .company, .edu-school { font-size: 1.05rem; margin-left: 0.5rem; font-style: italic; }
+        .dates, .edu-dates { font-size: 1rem; white-space: nowrap; margin-top: 0.2rem; }
+        .desc { font-size: 1.05rem; line-height: 1.6; margin-top: 0.8rem; }
+        .desc ul { list-style-position: inside; padding-left: 0.5rem; }
+        .desc li { margin-bottom: 0.5rem; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.8rem; margin-top: 0.5rem; padding-top: 0.5rem; }
+        .skill-tag { padding: 0.75em 1.2em; border-radius: 10px; font-size: 0.98em; font-weight: 500; text-align: center; transition: all 0.3s ease-in-out; }
+        .lang-list { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.5rem; }
+        .lang-tag { padding: 0.6em 1.2em; border-radius: 1.5em; font-size: 1em; font-weight: 500; }
+        .edu-item { margin-bottom: 1.25rem; }
+
+        /* --- Page Break Control for PDF --- */
+        .avoid-break { page-break-inside: avoid !important; }
+
+        /* --- Responsive Adjustments --- */
+        @media (min-width: 768px) {
+            .header-content { flex-direction: row; text-align: left; align-items: center; gap: 2.5rem; }
+            .header-text { flex-grow: 1; }
+            .contact-info { justify-content: flex-start; }
+            .name { font-size: 3rem; }
+        }
+        @media (max-width: 767px) {
+            body { padding: 1rem 0.5rem; } .cv-container { padding: 2rem 1.5rem; gap: 2rem; }
+            .name { font-size: 2.2rem; } .role { font-size: 1.2rem; }
+            .contact-info { flex-direction: column; align-items: center; gap: 0.8rem; font-size: 0.95rem; }
+            .section-title { font-size: 1.3rem; margin-bottom: 1rem; }
+            .item-header { flex-direction: column; align-items: flex-start; }
+            .job-title { font-size: 1.15rem; } .company { margin-left: 0; margin-top: 0.2rem; }
+            .dates { margin-top: 0.2rem; } .desc { font-size: 0.95rem; }
+            .skills-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+            .skill-tag, .lang-tag { font-size: 0.9em; padding: 0.5em 1em; }
+            .edu-title { font-size: 1.05rem; } .edu-school, .edu-dates { font-size: 0.95rem; }
+        }
+
+        /* --- Styles for PDF generation to fit into two pages --- */
+        .cv-container.pdf-condensed {
+            padding: 1.5rem 2rem;
+            gap: 1.2rem;
+        }
+        .pdf-condensed .name { font-size: 2.2rem; }
+        .pdf-condensed .role { font-size: 1.1rem; }
+        .pdf-condensed .contact-info { font-size: 0.9rem; margin-top: 0.8rem; }
+        .pdf-condensed .section-title { font-size: 1.2rem; margin-bottom: 0.8rem; padding-bottom: 0.2rem; }
+        .pdf-condensed .item { margin-bottom: 0.8rem; }
+        .pdf-condensed .job-title, .pdf-condensed .edu-title { font-size: 1.05rem; }
+        .pdf-condensed .company, .pdf-condensed .edu-school { font-size: 0.95rem; }
+        .pdf-condensed .dates, .pdf-condensed .edu-dates { font-size: 0.9rem; }
+        .pdf-condensed .desc { font-size: 0.9rem; line-height: 1.4; }
+        .pdf-condensed .skills-grid { gap: 0.5rem; }
+        .pdf-condensed .skill-tag { font-size: 0.85em; padding: 0.5em 0.8em; }
+        .pdf-condensed .lang-list { gap: 0.5rem; }
+        .pdf-condensed .lang-tag { font-size: 0.9em; }
+
+        /* Styles for PDF Generation (Condensed) */
+        .pdf-condensed {
+            font-size: 14px; /* Base font size for PDF */
+        }
+        .pdf-condensed h1 { font-size: 1.8em; }
+        .pdf-condensed h2.section-title { font-size: 1.1em; margin-top: 0.8rem; margin-bottom: 0.6rem; }
+        .pdf-condensed .job, .pdf-condensed .education-item { margin-bottom: 0.6rem; }
+        .pdf-condensed .job-title, .pdf-condensed .degree { font-size: 0.95em; }
+        .pdf-condensed .company, .pdf-condensed .university { font-size: 0.85em; }
+        .pdf-condensed .job-description, .pdf-condensed .education-details { font-size: 0.85em; line-height: 1.3; }
+        .pdf-condensed .skills-list, .pdf-condensed .lang-list { gap: 0.4rem; padding-left: 0; }
+        .pdf-condensed .skill-tag, .pdf-condensed .lang-tag { font-size: 0.8em; padding: 0.2rem 0.4rem; }
+        .pdf-condensed .lang-list { margin-top: 0.5rem; }
+
+        .pdf-condensed #editorial-job {
+            margin-top: 6rem; /* Adds MORE space above this job in the PDF */
+        }
+    </style>
 </head>
 <body> <!-- No .dark class by default -->
     <div class="controls-container">
@@ -262,7 +498,78 @@
         </section>
     </div>
 
-    <script src="js/main.js"></script>
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const langToggle = document.getElementById('lang-toggle');
+        const body = document.body;
+        const docHtml = document.documentElement;
+
+        // --- Theme Functionality ---
+        const setTheme = (isDark) => {
+            if (isDark) {
+                body.classList.add('dark');
+                themeToggle.checked = true;
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark');
+                themeToggle.checked = false;
+                localStorage.setItem('theme', 'light');
+            }
+        };
+
+        // --- Language Functionality ---
+        const setLanguage = (isEnglish) => {
+            if (isEnglish) {
+                docHtml.lang = 'en';
+                langToggle.checked = true;
+                localStorage.setItem('language', 'en');
+            } else {
+                docHtml.lang = 'pt';
+                langToggle.checked = false;
+                localStorage.setItem('language', 'pt');
+            }
+        };
+
+        // --- Event Listeners ---
+        themeToggle.addEventListener('change', () => setTheme(themeToggle.checked));
+        langToggle.addEventListener('change', () => setLanguage(langToggle.checked));
+
+        // --- PDF Download Functionality ---
+        document.getElementById('download-pdf-btn').addEventListener('click', function () {
+            const element = document.getElementById('cv-to-print');
+            const lang = docHtml.lang.toUpperCase();
+            
+            // Add class to condense layout for PDF
+            element.classList.add('pdf-condensed');
+
+            const opt = {
+                margin: 0,
+                filename: `Armando_Alves_CV_${lang}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true, 
+                    backgroundColor: body.classList.contains('dark') ? '#1a1a1a' : '#ffffff' 
+                },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['css', 'legacy'] }
+            };
+
+            html2pdf().from(element).set(opt).save().then(() => {
+                // Remove class after PDF is generated to restore original view
+                element.classList.remove('pdf-condensed');
+            });
+        });
+
+        // --- Set Initial State on Load ---
+        // Set Theme (Default to Light)
+        const savedTheme = localStorage.getItem('theme');
+        setTheme(savedTheme === 'dark');
+
+        // Set Language (Default to Portuguese)
+        const savedLang = localStorage.getItem('language');
+        setLanguage(savedLang === 'en');
+    </script>
 
 </body>
-</html>
+</html> 
