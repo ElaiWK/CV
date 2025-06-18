@@ -214,12 +214,14 @@
     
     <!-- Aggressive print styles to force 2-page PDF -->
     <style id="print-styles">
+        /* These styles are applied only when the .pdf-view class is added to the container before printing */
         .pdf-view {
             font-size: 9.5pt !important;
         }
         .pdf-view .cv-container {
             gap: 0.8rem !important;
             padding: 1.2rem 1.5rem !important;
+            box-shadow: none !important; /* Remove shadow for PDF */
         }
         .pdf-view .profile-picture {
             width: 110px !important;
@@ -266,225 +268,228 @@
         </button>
     </div>
 
-    <div class="cv-container" id="cv-to-print">
-        <!-- Header Section -->
-        <header class="header-content avoid-break">
-            <img src="img/profile-pic.png" alt="Foto de Perfil de Armando Alves" class="profile-picture" onerror="this.onerror=null;this.src='https://placehold.co/140x140/e0e0e0/a0a0a0?text=Image+Not+Found';">
-            <div class="header-text">
-                <h1 class="name">Armando Alves</h1>
-                <div class="role">
-                    <span class="lang-pt">Developer de Sistemas Internos / Criador de Soluções Digitais</span>
-                    <span class="lang-en">Internal Systems Developer / Digital Solutions Builder</span>
-                </div>
-                <div class="contact-info">
-                    <span class="contact-item"><i class="fas fa-map-marker-alt"></i> Portimão, Portugal</span>
-                    <span class="contact-item"><i class="fas fa-envelope"></i> <a href="mailto:tea4wolf@gmail.com">tea4wolf@gmail.com</a></span>
-                    <span class="contact-item"><i class="fas fa-phone"></i> <a href="tel:+351913313174">+351 913 313 174</a></span>
-                    <span class="contact-item"><i class="fab fa-linkedin"></i> <a href="https://linkedin.com/in/armando-alves-a07840a7" target="_blank" rel="noopener noreferrer">linkedin.com/in/armando-alves-a07840a7</a></span>
-                </div>
-            </div>
-        </header>
-
-        <!-- Summary Section -->
-        <section class="avoid-break">
-            <h2 class="section-title">
-                <i class="fas fa-user-tie"></i> 
-                <span class="lang-pt">Resumo</span>
-                <span class="lang-en">Summary</span>
-            </h2>
-            <div class="desc">
-                <span class="lang-pt">Developer versátil com mais de 5 anos de experiência em automação de operações, criação de ferramentas digitais e desenho de processos de negócio. Experiência prática em web design, automação e sistemas internos—poupando centenas de horas, reduzindo erros e capacitando equipas numa empresa de eventos e logística em rápido crescimento. Atualmente à procura de novas oportunidades para construir, otimizar e automatizar—sempre com curiosidade, resiliência e um apurado sentido de humor.</span>
-                <span class="lang-en">Versatile solutions developer with 5+ years automating operations, building digital tools, and designing business processes. Hands-on experience in web design, automation, and internal systems—saving hundreds of hours, reducing errors, and empowering teams at a rapidly growing event & logistics company. Currently seeking new opportunities to build, optimise, and automate—always with curiosity, resilience, and a dry sense of humour.</span>
-            </div>
-        </section>
-
-        <!-- Professional Experience Section -->
-        <section>
-            <h2 class="section-title">
-                <i class="fas fa-briefcase"></i> 
-                <span class="lang-pt">Experiência Profissional</span>
-                <span class="lang-en">Professional Experience</span>
-            </h2>
-
-            <div class="item avoid-break">
-                <div class="item-header">
-                    <div>
-                        <div class="job-title"><span class="lang-pt">Developer de Sistemas Internos</span><span class="lang-en">Internal Systems Developer</span></div>
-                        <span class="company">@ My Dynamic</span>
+    <!-- The container that will be printed -->
+    <div id="cv-outer-container">
+        <div class="cv-container" id="cv-to-print">
+            <!-- Header Section -->
+            <header class="header-content avoid-break">
+                <img src="img/profile-pic.png" alt="Foto de Perfil de Armando Alves" class="profile-picture" onerror="this.onerror=null;this.src='https://placehold.co/140x140/e0e0e0/a0a0a0?text=Image+Not+Found';">
+                <div class="header-text">
+                    <h1 class="name">Armando Alves</h1>
+                    <div class="role">
+                        <span class="lang-pt">Developer de Sistemas Internos / Criador de Soluções Digitais</span>
+                        <span class="lang-en">Internal Systems Developer / Digital Solutions Builder</span>
                     </div>
-                    <span class="dates"><span class="lang-pt">Jan 2020 - Jun 2025</span><span class="lang-en">Jan 2020 - Jun 2025</span></span>
-                </div>
-                <div class="desc">
-                    <ul class="lang-pt">
-                        <li>Criei ferramentas web internas que pouparam >400 horas de trabalho mensais – Sistema de orçamentação rápida “Orca” (5 min vs 1 h por utilizador, por orçamento) – “Dynamic Wallet”, uma aplicação móvel para controlo de despesas para mais de 10 colaboradores.</li>
-                        <li>Automatizei logística, processamento de salários e inventário via Google Apps Script.</li>
-                        <li>Implementei sites de clientes (deixaki.pt, dynamickids.pt) com WordPress.</li>
-                        <li>Stack: HTML/CSS, JavaScript (com assistência de IA), Apps Script.</li>
-                    </ul>
-                    <ul class="lang-en">
-                        <li>Built internal web tools saving >400 staff-hours per month – “Orca” rapid-quote system (5 min vs 1 h per user, per quote) – “Dynamic Wallet” mobile expense tracker for 10+ staff members.</li>
-                        <li>Automated logistics, payroll & inventory via Google Apps Script.</li>
-                        <li>Deployed customer sites (deixaki.pt, dynamickids.pt) with WordPress.</li>
-                        <li>Stack: HTML/CSS, JavaScript (AI-assisted), Apps Script.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="item avoid-break">
-                <div class="item-header">
-                    <div>
-                        <div class="job-title"><span class="lang-pt">Web Designer & Criador de Soluções Digitais</span><span class="lang-en">Web Designer & Digital Solutions Builder</span></div>
-                        <span class="company">@ My Dynamic</span>
+                    <div class="contact-info">
+                        <span class="contact-item"><i class="fas fa-map-marker-alt"></i> Portimão, Portugal</span>
+                        <span class="contact-item"><i class="fas fa-envelope"></i> <a href="mailto:tea4wolf@gmail.com">tea4wolf@gmail.com</a></span>
+                        <span class="contact-item"><i class="fas fa-phone"></i> <a href="tel:+351913313174">+351 913 313 174</a></span>
+                        <span class="contact-item"><i class="fab fa-linkedin"></i> <a href="https://linkedin.com/in/armando-alves-a07840a7" target="_blank" rel="noopener noreferrer">linkedin.com/in/armando-alves-a07840a7</a></span>
                     </div>
-                    <span class="dates"><span class="lang-pt">Jan 2016 - Dez 2019</span><span class="lang-en">Jan 2016 - Dec 2019</span></span>
                 </div>
-                <div class="desc">
-                    <ul class="lang-pt">
-                        <li>Desenhei, criei e mantive três sites WordPress (deixaki.pt, dynamickids.pt, lojadeixaki.pt) – crescimento de 50% de tráfego orgânico YoY.</li>
-                        <li>Criei um sistema de design reutilizável, padrões de UI e diretrizes de SEO on-page.</li>
-                        <li>Desenvolvi a primeira ferramenta de CRM/orçamentação em Google Sheets; automatizei e-mails de seguimento com Apps Script (tempo de resposta 2h → <10 min).</li>
-                        <li>Criei o protótipo da v1 da “Dynamic Wallet” em Sheets + script; mais tarde evoluiu para uma aplicação móvel.</li>
-                        <li>Trabalhei de forma transversal com marketing, RH e operações para converter fluxos de trabalho manuais em soluções digitais.</li>
-                    </ul>
-                    <ul class="lang-en">
-                        <li>Designed, built and maintained three WordPress sites (deixaki.pt, dynamickids.pt, lojadeixaki.pt) – 50% organic-traffic growth YoY.</li>
-                        <li>Created reusable design system, UI patterns and on-page SEO guidelines.</li>
-                        <li>Developed the first Google-Sheets CRM/quote tool; automated follow-up e-mails with Apps Script (turn-around 2 h → <10 min).</li>
-                        <li>Prototyped “Dynamic Wallet” v1 in Sheets + script; later evolved into mobile app.</li>
-                        <li>Worked cross-functionally with marketing, HR and ops to translate manual workflows into digital solutions.</li>
-                    </ul>
-                </div>
-            </div>
+            </header>
 
-            <div class="item avoid-break">
-                <div class="item-header">
-                    <div>
-                        <div class="job-title"><span class="lang-pt">Coordenador de Marketing & Design</span><span class="lang-en">Marketing & Design Lead</span></div>
-                        <span class="company">@ My Dynamic</span>
+            <!-- Summary Section -->
+            <section class="avoid-break">
+                <h2 class="section-title">
+                    <i class="fas fa-user-tie"></i> 
+                    <span class="lang-pt">Resumo</span>
+                    <span class="lang-en">Summary</span>
+                </h2>
+                <div class="desc">
+                    <span class="lang-pt">Developer versátil com mais de 5 anos de experiência em automação de operações, criação de ferramentas digitais e desenho de processos de negócio. Experiência prática em web design, automação e sistemas internos—poupando centenas de horas, reduzindo erros e capacitando equipas numa empresa de eventos e logística em rápido crescimento. Atualmente à procura de novas oportunidades para construir, otimizar e automatizar—sempre com curiosidade, resiliência e um apurado sentido de humor.</span>
+                    <span class="lang-en">Versatile solutions developer with 5+ years automating operations, building digital tools, and designing business processes. Hands-on experience in web design, automation, and internal systems—saving hundreds of hours, reducing errors, and empowering teams at a rapidly growing event & logistics company. Currently seeking new opportunities to build, optimise, and automate—always with curiosity, resilience, and a dry sense of humour.</span>
+                </div>
+            </section>
+
+            <!-- Professional Experience Section -->
+            <section>
+                <h2 class="section-title">
+                    <i class="fas fa-briefcase"></i> 
+                    <span class="lang-pt">Experiência Profissional</span>
+                    <span class="lang-en">Professional Experience</span>
+                </h2>
+
+                <div class="item avoid-break">
+                    <div class="item-header">
+                        <div>
+                            <div class="job-title"><span class="lang-pt">Developer de Sistemas Internos</span><span class="lang-en">Internal Systems Developer</span></div>
+                            <span class="company">@ My Dynamic</span>
+                        </div>
+                        <span class="dates"><span class="lang-pt">Jan 2020 - Jun 2025</span><span class="lang-en">Jan 2020 - Jun 2025</span></span>
                     </div>
-                    <span class="dates"><span class="lang-pt">Jan 2013 - Dez 2015</span><span class="lang-en">Jan 2013 - Dec 2015</span></span>
-                </div>
-                <div class="desc">
-                    <ul class="lang-pt">
-                        <li>Dirigi a estratégia de marca e identidade visual para uma empresa de eventos e logística em rápido crescimento.</li>
-                        <li>Produzi todos os recursos gráficos—impressão, redes sociais, feiras—usando Adobe Photoshop, Illustrator e InDesign.</li>
-                        <li>Planeei campanhas multicanal que aumentaram as reservas anuais de eventos em ~35%.</li>
-                        <li>Comecei a experimentar com WordPress e HTML/CSS básico para preparar a futura presença web da empresa.</li>
-                    </ul>
-                    <ul class="lang-en">
-                        <li>Directed brand strategy and visual identity for a rapidly-growing events & logistics company.</li>
-                        <li>Produced every graphic asset—print, social, trade-show—using Adobe Photoshop, Illustrator and InDesign.</li>
-                        <li>Planned multi-channel campaigns that boosted annual event bookings by ~35%.</li>
-                        <li>Began experimenting with WordPress and basic HTML/CSS to prep the company’s future web presence.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="item avoid-break">
-                <div class="item-header">
-                    <div>
-                        <div class="job-title"><span class="lang-pt">Estagiário Editorial</span><span class="lang-en">Editorial Assistant Intern</span></div>
-                        <span class="company">@ Leya</span>
+                    <div class="desc">
+                        <ul class="lang-pt">
+                            <li>Criei ferramentas web internas que pouparam >400 horas de trabalho mensais – Sistema de orçamentação rápida “Orca” (5 min vs 1 h por utilizador, por orçamento) – “Dynamic Wallet”, uma aplicação móvel para controlo de despesas para mais de 10 colaboradores.</li>
+                            <li>Automatizei logística, processamento de salários e inventário via Google Apps Script.</li>
+                            <li>Implementei sites de clientes (deixaki.pt, dynamickids.pt) com WordPress.</li>
+                            <li>Stack: HTML/CSS, JavaScript (com assistência de IA), Apps Script.</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li>Built internal web tools saving >400 staff-hours per month – “Orca” rapid-quote system (5 min vs 1 h per user, per quote) – “Dynamic Wallet” mobile expense tracker for 10+ staff members.</li>
+                            <li>Automated logistics, payroll & inventory via Google Apps Script.</li>
+                            <li>Deployed customer sites (deixaki.pt, dynamickids.pt) with WordPress.</li>
+                            <li>Stack: HTML/CSS, JavaScript (AI-assisted), Apps Script.</li>
+                        </ul>
                     </div>
-                    <span class="dates"><span class="lang-pt">Set 2012 - Dez 2012</span><span class="lang-en">Sep 2012 - Dec 2012</span></span>
                 </div>
-                <div class="desc">
-                    <ul class="lang-pt">
-                        <li>Auxiliei editores seniores com revisão de texto, provas e paginação para dois títulos de não-ficção.</li>
-                        <li>Trabalhei em Adobe InDesign e Word, garantindo a consistência do guia de estilo em mais de 300 páginas.</li>
-                    </ul>
-                    <ul class="lang-en">
-                        <li>Assisted senior editors with copy-editing, proof stages and page layout for two non-fiction titles.</li>
-                        <li>Worked in Adobe InDesign and Word, ensuring style-guide consistency across 300+ pages.</li>
-                    </ul>
-                </div>
-            </div>
 
-            <div class="item avoid-break">
-                <div class="item-header">
-                    <div>
-                        <div class="job-title"><span class="lang-pt">Assistente de Arquivo</span><span class="lang-en">Archive Assistant</span></div>
-                        <span class="company">@ Banco de Portugal</span>
+                <div class="item avoid-break">
+                    <div class="item-header">
+                        <div>
+                            <div class="job-title"><span class="lang-pt">Web Designer & Criador de Soluções Digitais</span><span class="lang-en">Web Designer & Digital Solutions Builder</span></div>
+                            <span class="company">@ My Dynamic</span>
+                        </div>
+                        <span class="dates"><span class="lang-pt">Jan 2016 - Dez 2019</span><span class="lang-en">Jan 2016 - Dec 2019</span></span>
                     </div>
-                    <span class="dates"><span class="lang-pt">Jan 2012 - Mar 2012</span><span class="lang-en">Jan 2012 - Mar 2012</span></span>
+                    <div class="desc">
+                        <ul class="lang-pt">
+                            <li>Desenhei, criei e mantive três sites WordPress (deixaki.pt, dynamickids.pt, lojadeixaki.pt) – crescimento de 50% de tráfego orgânico YoY.</li>
+                            <li>Criei um sistema de design reutilizável, padrões de UI e diretrizes de SEO on-page.</li>
+                            <li>Desenvolvi a primeira ferramenta de CRM/orçamentação em Google Sheets; automatizei e-mails de seguimento com Apps Script (tempo de resposta 2h → <10 min).</li>
+                            <li>Criei o protótipo da v1 da “Dynamic Wallet” em Sheets + script; mais tarde evoluiu para uma aplicação móvel.</li>
+                            <li>Trabalhei de forma transversal com marketing, RH e operações para converter fluxos de trabalho manuais em soluções digitais.</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li>Designed, built and maintained three WordPress sites (deixaki.pt, dynamickids.pt, lojadeixaki.pt) – 50% organic-traffic growth YoY.</li>
+                            <li>Created reusable design system, UI patterns and on-page SEO guidelines.</li>
+                            <li>Developed the first Google-Sheets CRM/quote tool; automated follow-up e-mails with Apps Script (turn-around 2 h → <10 min).</li>
+                            <li>Prototyped “Dynamic Wallet” v1 in Sheets + script; later evolved into mobile app.</li>
+                            <li>Worked cross-functionally with marketing, HR and ops to translate manual workflows into digital solutions.</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="desc">
-                    <ul class="lang-pt">
-                        <li>Avaliei processos administrativos e apliquei tabelas de seleção; identifiquei registos obsoletos para destruição segura.</li>
-                    </ul>
-                    <ul class="lang-en">
-                        <li>Assessed administrative files and applied retention schedules; tagged obsolete records for secure destruction.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
 
-        <!-- Education Section -->
-        <section>
-            <h2 class="section-title">
-                <i class="fas fa-graduation-cap"></i> 
-                <span class="lang-pt">Educação</span>
-                <span class="lang-en">Education</span>
-            </h2>
-             <div class="edu-item avoid-break">
-                <div class="item-header">
-                    <div class="edu-title"><span class="lang-pt">Licenciatura em Engenharia de Software</span><span class="lang-en">BSc in Software Engineering</span></div>
-                    <span class="dates"><span class="lang-pt">Presente</span><span class="lang-en">Present</span></span>
+                <div class="item avoid-break">
+                    <div class="item-header">
+                        <div>
+                            <div class="job-title"><span class="lang-pt">Coordenador de Marketing & Design</span><span class="lang-en">Marketing & Design Lead</span></div>
+                            <span class="company">@ My Dynamic</span>
+                        </div>
+                        <span class="dates"><span class="lang-pt">Jan 2013 - Dez 2015</span><span class="lang-en">Jan 2013 - Dec 2015</span></span>
+                    </div>
+                    <div class="desc">
+                        <ul class="lang-pt">
+                            <li>Dirigi a estratégia de marca e identidade visual para uma empresa de eventos e logística em rápido crescimento.</li>
+                            <li>Produzi todos os recursos gráficos—impressão, redes sociais, feiras—usando Adobe Photoshop, Illustrator e InDesign.</li>
+                            <li>Planeei campanhas multicanal que aumentaram as reservas anuais de eventos em ~35%.</li>
+                            <li>Comecei a experimentar com WordPress e HTML/CSS básico para preparar a futura presença web da empresa.</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li>Directed brand strategy and visual identity for a rapidly-growing events & logistics company.</li>
+                            <li>Produced every graphic asset—print, social, trade-show—using Adobe Photoshop, Illustrator and InDesign.</li>
+                            <li>Planned multi-channel campaigns that boosted annual event bookings by ~35%.</li>
+                            <li>Began experimenting with WordPress and basic HTML/CSS to prep the company’s future web presence.</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="edu-school"><span class="lang-pt">Online / Autodidata</span><span class="lang-en">Online / Self-study</span></div>
-            </div>
-            <div class="edu-item avoid-break">
-                <div class="item-header">
-                    <div class="edu-title"><span class="lang-pt">Mestrado em Edição de Texto</span><span class="lang-en">MA in Text Editing</span></div>
-                    <span class="dates">2013 – 2015</span>
-                </div>
-                <div class="edu-school">Universidade Nova de Lisboa</div>
-            </div>
-            <div class="edu-item avoid-break">
-                <div class="item-header">
-                    <div class="edu-title"><span class="lang-pt">Licenciatura em Ciências Documentais e Editoriais</span><span class="lang-en">BA in Documentary & Editorial Sciences</span></div>
-                    <span class="dates">2010 – 2013</span>
-                </div>
-                <div class="edu-school">Universidade de Lisboa</div>
-            </div>
-        </section>
 
-        <!-- Key Skills Section -->
-        <section>
-             <h2 class="section-title">
-                <i class="fas fa-cogs"></i> 
-                <span class="lang-pt">Competências Chave</span>
-                <span class="lang-en">Key Skills</span>
-            </h2>
-            <div class="skills-grid">
-                <span class="skill-tag lang-pt">Automação de Processos</span><span class="skill-tag lang-en">Process Automation</span>
-                <span class="skill-tag lang-pt">Desenvolvimento Web</span><span class="skill-tag lang-en">Web Development</span>
-                <span class="skill-tag">Google Apps Script</span>
-                <span class="skill-tag lang-pt">Ferramentas de Programação com IA</span><span class="skill-tag lang-en">AI Coding Tools</span>
-                <span class="skill-tag">WordPress</span>
-                <span class="skill-tag">UI/UX Design</span>
-                <span class="skill-tag">Adobe Creative Suite</span>
-                <span class="skill-tag lang-pt">Branding & Design</span><span class="skill-tag lang-en">Branding & Design</span>
-                <span class="skill-tag lang-pt">Gestão de Projetos Digitais</span><span class="skill-tag lang-en">Digital Project Management</span>
-                <span class="skill-tag lang-pt">Sistemas de Comunicação Interna</span><span class="skill-tag lang-en">Internal Comms Systems</span>
-                <span class="skill-tag lang-pt">Análise de Negócio</span><span class="skill-tag lang-en">Business Analysis</span>
-                <span class="skill-tag">Copywriting</span>
-            </div>
-        </section>
-        
-        <!-- Languages Section -->
-        <section>
-            <h2 class="section-title">
-                <i class="fas fa-language"></i> 
-                <span class="lang-pt">Línguas</span>
-                <span class="lang-en">Languages</span>
-            </h2>
-            <div class="lang-list">
-                <span class="lang-tag lang-pt">Português (Nativo)</span><span class="lang-tag lang-en">Portuguese (Native)</span>
-                <span class="lang-tag lang-pt">Inglês (Fluente)</span><span class="lang-tag lang-en">English (Fluent)</span>
-                <span class="lang-tag lang-pt">Espanhol (Básico)</span><span class="lang-tag lang-en">Spanish (Basic)</span>
-            </div>
-        </section>
+                <div class="item avoid-break">
+                    <div class="item-header">
+                        <div>
+                            <div class="job-title"><span class="lang-pt">Estagiário Editorial</span><span class="lang-en">Editorial Assistant Intern</span></div>
+                            <span class="company">@ Leya</span>
+                        </div>
+                        <span class="dates"><span class="lang-pt">Set 2012 - Dez 2012</span><span class="lang-en">Sep 2012 - Dec 2012</span></span>
+                    </div>
+                    <div class="desc">
+                        <ul class="lang-pt">
+                            <li>Auxiliei editores seniores com revisão de texto, provas e paginação para dois títulos de não-ficção.</li>
+                            <li>Trabalhei em Adobe InDesign e Word, garantindo a consistência do guia de estilo em mais de 300 páginas.</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li>Assisted senior editors with copy-editing, proof stages and page layout for two non-fiction titles.</li>
+                            <li>Worked in Adobe InDesign and Word, ensuring style-guide consistency across 300+ pages.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="item avoid-break">
+                    <div class="item-header">
+                        <div>
+                            <div class="job-title"><span class="lang-pt">Assistente de Arquivo</span><span class="lang-en">Archive Assistant</span></div>
+                            <span class="company">@ Banco de Portugal</span>
+                        </div>
+                        <span class="dates"><span class="lang-pt">Jan 2012 - Mar 2012</span><span class="lang-en">Jan 2012 - Mar 2012</span></span>
+                    </div>
+                    <div class="desc">
+                        <ul class="lang-pt">
+                            <li>Avaliei processos administrativos e apliquei tabelas de seleção; identifiquei registos obsoletos para destruição segura.</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li>Assessed administrative files and applied retention schedules; tagged obsolete records for secure destruction.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education Section -->
+            <section>
+                <h2 class="section-title">
+                    <i class="fas fa-graduation-cap"></i> 
+                    <span class="lang-pt">Educação</span>
+                    <span class="lang-en">Education</span>
+                </h2>
+                 <div class="edu-item avoid-break">
+                    <div class="item-header">
+                        <div class="edu-title"><span class="lang-pt">Licenciatura em Engenharia de Software</span><span class="lang-en">BSc in Software Engineering</span></div>
+                        <span class="dates"><span class="lang-pt">Presente</span><span class="lang-en">Present</span></span>
+                    </div>
+                    <div class="edu-school"><span class="lang-pt">Online / Autodidata</span><span class="lang-en">Online / Self-study</span></div>
+                </div>
+                <div class="edu-item avoid-break">
+                    <div class="item-header">
+                        <div class="edu-title"><span class="lang-pt">Mestrado em Edição de Texto</span><span class="lang-en">MA in Text Editing</span></div>
+                        <span class="dates">2013 – 2015</span>
+                    </div>
+                    <div class="edu-school">Universidade Nova de Lisboa</div>
+                </div>
+                <div class="edu-item avoid-break">
+                    <div class="item-header">
+                        <div class="edu-title"><span class="lang-pt">Licenciatura em Ciências Documentais e Editoriais</span><span class="lang-en">BA in Documentary & Editorial Sciences</span></div>
+                        <span class="dates">2010 – 2013</span>
+                    </div>
+                    <div class="edu-school">Universidade de Lisboa</div>
+                </div>
+            </section>
+
+            <!-- Key Skills Section -->
+            <section>
+                 <h2 class="section-title">
+                    <i class="fas fa-cogs"></i> 
+                    <span class="lang-pt">Competências Chave</span>
+                    <span class="lang-en">Key Skills</span>
+                </h2>
+                <div class="skills-grid">
+                    <span class="skill-tag lang-pt">Automação de Processos</span><span class="skill-tag lang-en">Process Automation</span>
+                    <span class="skill-tag lang-pt">Desenvolvimento Web</span><span class="skill-tag lang-en">Web Development</span>
+                    <span class="skill-tag">Google Apps Script</span>
+                    <span class="skill-tag lang-pt">Ferramentas de Programação com IA</span><span class="skill-tag lang-en">AI Coding Tools</span>
+                    <span class="skill-tag">WordPress</span>
+                    <span class="skill-tag">UI/UX Design</span>
+                    <span class="skill-tag">Adobe Creative Suite</span>
+                    <span class="skill-tag lang-pt">Branding & Design</span><span class="skill-tag lang-en">Branding & Design</span>
+                    <span class="skill-tag lang-pt">Gestão de Projetos Digitais</span><span class="skill-tag lang-en">Digital Project Management</span>
+                    <span class="skill-tag lang-pt">Sistemas de Comunicação Interna</span><span class="skill-tag lang-en">Internal Comms Systems</span>
+                    <span class="skill-tag lang-pt">Análise de Negócio</span><span class="skill-tag lang-en">Business Analysis</span>
+                    <span class="skill-tag">Copywriting</span>
+                </div>
+            </section>
+            
+            <!-- Languages Section -->
+            <section>
+                <h2 class="section-title">
+                    <i class="fas fa-language"></i> 
+                    <span class="lang-pt">Línguas</span>
+                    <span class="lang-en">Languages</span>
+                </h2>
+                <div class="lang-list">
+                    <span class="lang-tag lang-pt">Português (Nativo)</span><span class="lang-tag lang-en">Portuguese (Native)</span>
+                    <span class="lang-tag lang-pt">Inglês (Fluente)</span><span class="lang-tag lang-en">English (Fluent)</span>
+                    <span class="lang-tag lang-pt">Espanhol (Básico)</span><span class="lang-tag lang-en">Spanish (Basic)</span>
+                </div>
+            </section>
+        </div>
     </div>
 
     <script>
@@ -492,7 +497,9 @@
         const langToggle = document.getElementById('lang-toggle');
         const body = document.body;
         const docHtml = document.documentElement;
-        const cvContainer = document.getElementById('cv-to-print');
+        const cvOuterContainer = document.getElementById('cv-outer-container');
+        const cvToPrint = document.getElementById('cv-to-print');
+
 
         // --- Theme Functionality ---
         const setTheme = (isDark) => {
@@ -527,27 +534,36 @@
         // --- PDF Download Functionality ---
         document.getElementById('download-pdf-btn').addEventListener('click', function () {
             const lang = docHtml.lang.toUpperCase();
+            const elementToPrint = cvToPrint; // The element to be rendered as PDF
             
-            // Force light theme and add print-specific class for PDF generation
+            // Temporarily apply a class to the parent container for PDF-specific styling
             const wasDark = body.classList.contains('dark');
-            if (wasDark) {
-                body.classList.remove('dark');
-            }
-            cvContainer.classList.add('pdf-view'); // Add class for print styles
+            if(wasDark) body.classList.remove('dark'); // Force light theme for consistency
+            
+            // Add the 'pdf-view' class to the *outer* container to trigger the specific styles
+            cvOuterContainer.classList.add('pdf-view');
 
             const opt = {
-                margin: [0.35, 0.25, 0.35, 0.25], // Tighter margins
+                margin: [0.35, 0.25, 0.35, 0.25], // Margins in inches [top, left, bottom, right]
                 filename: `Armando_Alves_CV_${lang}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
                 jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            // Generate PDF and then restore original state
-            html2pdf().from(cvContainer).set(opt).save().then(() => {
-                cvContainer.classList.remove('pdf-view'); // Remove class after generation
+            // Generate PDF from the specified element
+            html2pdf().from(elementToPrint).set(opt).save().then(() => {
+                // Cleanup: remove the class and restore theme after the PDF is saved
+                cvOuterContainer.classList.remove('pdf-view');
                 if (wasDark) {
-                    body.classList.add('dark'); // Restore dark theme if it was active
+                    body.classList.add('dark'); 
+                }
+            }).catch((error) => {
+                console.error("PDF generation failed:", error);
+                // Always restore the state, even on failure
+                cvOuterContainer.classList.remove('pdf-view');
+                if (wasDark) {
+                    body.classList.add('dark');
                 }
             });
         });
@@ -565,3 +581,4 @@
 
 </body>
 </html>
+
